@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Collection, Item } from './interfaces/interfaces';
 import { DbSqlService } from './services/db-sql.service';
 
@@ -12,7 +12,8 @@ export class AppComponent {
   page: number = 0;
 
   constructor(
-    private dbApi: DbSqlService
+    private dbApi: DbSqlService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -26,10 +27,12 @@ export class AppComponent {
       }
 
       val.data.data.forEach((res: any) => {
+        console.log(res);
+
         var collection: Collection;
         var existingCollection = this.items.filter(i => i.ownerId == res.ownerId);
 
-        if (existingCollection.length == 0) {
+        // if (existingCollection.length == 0) {
           collection = {
             ownerId: res.ownerId
             , totalCount: res.totalCount
@@ -41,11 +44,13 @@ export class AppComponent {
 
           collection.items.push(res);
           this.items.push(collection);
-        } else {
-          collection = existingCollection[0];
-          collection.items.push(res);
-        }
+        // } else {
+        //   collection = existingCollection[0];
+        //   collection.items.push(res);
+        // }
       })
+
+      this.cdr.detectChanges();
     })
 
   }

@@ -1,6 +1,6 @@
 <div class="main-content">
 <div *ngFor="let item of collection">
-  <p>{{item.itemId}}<p>
-  <p>{{item.x}}, {{item.y}}</p>
+  <p (click)="changeText()">{{item.ownerId}}<p>
+  <p>{{item.totalCount}}, {{item.filteredCount}}</p>
 </div>
 </div>
